@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculation Form</title>
+    <script>
+        function saveData() {
+            localStorage.setItem("attack", document.getElementById("attack").value);
+            localStorage.setItem("defensePercentage", document.getElementById("defensePercentage").value);
+            localStorage.setItem("defenseAbsolute", document.getElementById("defenseAbsolute").value);
+        }
+
+        function loadData() {
+            if (localStorage.getItem("attack") !== null) {
+                document.getElementById("attack").value = localStorage.getItem("attack");
+            }
+            if (localStorage.getItem("defensePercentage") !== null) {
+                document.getElementById("defensePercentage").value = localStorage.getItem("defensePercentage");
+            }
+            if (localStorage.getItem("defenseAbsolute") !== null) {
+                document.getElementById("defenseAbsolute").value = localStorage.getItem("defenseAbsolute");
+            }
+        }
+
+        function updateLabels(id) {
+            let value = parseFloat(document.getElementById(id).value) || 0;
+            if (id === "defensePercentage") {
+                document.getElementById(id + "Label").textContent = `(${value.toFixed(2)}%)`;
+            } else {
+                document.getElementById(id + "Label").textContent = `(${(value / 1000).toFixed(3)}K, ${(value / 1000000).toFixed(3)}M)`;
+            }
+        }
+
+        function calculate() {
+            let attack = parseFloat(document.getElementById("attack").value) || 0;
+            let defensePercentage = parseFloat(document.getElementById("defensePercentage").value) || 0;
+            let defenseAbsolute = parseFloat(document.getElementById("defenseAbsolute").value) || 0;
+            
+            let result = attack - (attack * (defensePercentage / 100));
+            result -= defenseAbsolute;
+            result = Math.round(result);
+            
+            document.getElementById("output").value = result;
+            document.getElementById("outputLabel").textContent = `(${(result / 1000).toFixed(3)}K, ${(result / 1000000).toFixed(3)}M)`;
+            saveData();
+        }
+
+        window.onload = function() {
+            loadData();
+            calculate();
+        }
+    </script>
+</head>
+<body>
+    <h2>Calculation Form</h2>
+    
+    <label for="attack">Attack:</label>
+    <input type="number" id="attack" placeholder="Enter attack value" oninput="calculate(); updateLabels('attack');">
+    <span id="attackLabel">(0.000K, 0.000M)</span>
+    <br><br>
+
+    <label for="defensePercentage">Defense Percentage:</label>
+    <input type="number" id="defensePercentage" placeholder="Enter defense percentage" oninput="calculate(); updateLabels('defensePercentage');">
+    <span id="defensePercentageLabel">(0.00%)</span>
+    <br><br>
+
+    <label for="defenseAbsolute">Defense Absolute:</label>
+    <input type="number" id="defenseAbsolute" placeholder="Enter defense absolute value" oninput="calculate(); updateLabels('defenseAbsolute');">
+    <span id="defenseAbsoluteLabel">(0.000K, 0.000M)</span>
+    <br><br>
+
+    <label for="output">Result:</label>
+    <input type="text" id="output" readonly>
+    <span id="outputLabel">(0.000K, 0.000M)</span>
+    <br><br>
+</body>
+</html>
