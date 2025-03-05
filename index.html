@@ -41,8 +41,18 @@
             result -= defenseAbsolute;
             result = Math.round(result);
             
+            // Display result in the "Result" field and label
             document.getElementById("output").value = result;
             document.getElementById("outputLabel").textContent = `(${(result / 1000).toFixed(3)}K, ${(result / 1000000).toFixed(3)}M)`;
+
+            // Calculate minimum required attack for the result to be >= 0
+            let minAttack = defenseAbsolute / (1 - (defensePercentage / 100));
+            if (minAttack < 0) minAttack = 0; // Prevent negative values
+            
+            // Display the minimum required attack value
+            document.getElementById("minAttack").value = minAttack.toFixed(2);
+            document.getElementById("minAttackLabel").textContent = `(${(minAttack / 1000).toFixed(3)}K, ${(minAttack / 1000000).toFixed(3)}M)`;
+
             saveData();
         }
 
@@ -73,6 +83,12 @@
     <label for="output">Result:</label>
     <input type="text" id="output" readonly>
     <span id="outputLabel">(0.000K, 0.000M)</span>
+    <br><br>
+
+    <!-- New field for minimum required attack -->
+    <label for="minAttack">Minimum Attack:</label>
+    <input type="text" id="minAttack" readonly>
+    <span id="minAttackLabel">(0.000K, 0.000M)</span>
     <br><br>
 </body>
 </html>
