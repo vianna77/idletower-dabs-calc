@@ -28,7 +28,7 @@
             if (id === "defensePercentage") {
                 document.getElementById(id + "Label").textContent = `(${value.toFixed(2)}%)`;
             } else {
-                document.getElementById(id + "Label").textContent = `(${(value / 1000).toFixed(3)}K, ${(value / 1000000).toFixed(3)}M)`;
+                document.getElementById(id + "Label").textContent = `(${(value / 1000).toFixed(2)}K, ${(value / 1000000).toFixed(2)}M)`;
             }
         }
 
@@ -43,7 +43,7 @@
             
             // Display result in the "Result" field and label
             document.getElementById("output").value = result;
-            document.getElementById("outputLabel").textContent = `(${(result / 1000).toFixed(3)}K, ${(result / 1000000).toFixed(3)}M)`;
+            document.getElementById("outputLabel").textContent = `(${(result / 1000).toFixed(2)}K, ${(result / 1000000).toFixed(2)}M)`;
 
             // Calculate minimum required attack for the result to be >= 0
             let minAttack = defenseAbsolute / (1 - (defensePercentage / 100));
@@ -51,7 +51,7 @@
             
             // Display the minimum required attack value
             document.getElementById("minAttack").value = minAttack.toFixed(2);
-            document.getElementById("minAttackLabel").textContent = `(${(minAttack / 1000).toFixed(3)}K, ${(minAttack / 1000000).toFixed(3)}M)`;
+            document.getElementById("minAttackLabel").textContent = `(${(minAttack / 1000).toFixed(2)}K, ${(minAttack / 1000000).toFixed(2)}M)`;
 
             saveData();
         }
